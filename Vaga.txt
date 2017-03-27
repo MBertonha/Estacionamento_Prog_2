@@ -1,0 +1,24 @@
+package estacionamento;
+
+import java.time.LocalDateTime;
+
+public class Vaga {
+    
+    boolean ocupada;
+    LocalDateTime entradaHora;
+    LocalDateTime saidaHora;
+    int pagamento = 0;
+    String entrando = "";
+    String saindo = "";
+    String placa = "";
+    long horas;
+    
+    public Vaga(){
+        ocupada = false;
+    }
+
+    @Override
+    public String toString(){
+        return "Status da vaga: " + ocupada; 
+    }
+}

@@ -1,0 +1,86 @@
+package estacionamento;
+
+import java.time.LocalDateTime;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
+
+public class Estacionamento extends Vaga {
+
+    Vaga[] estacionamento; 
+    int max;
+    int ultimo;
+
+    public Estacionamento() {   //estabelecendo o tamanho do estacionamento (numero de vagas)
+        max = 24;
+        estacionamento = new Vaga[max];
+    }
+    
+    public void inserirVagas(Vaga v) {
+        if (ultimo != max) {  //enquanto nao preencher as 24 vagas
+            estacionamento[ultimo] = v;
+            ultimo++;
+        }
+    }
+    
+    public void encontrarVaga(String g){
+        for (int i = 0; i < 24; i++) {
+            if (estacionamento[i].ocupada == false){
+                estacionamento[i].ocupada = true;
+                estacionamento[i].entradaHora = LocalDateTime.now();
+                estacionamento[i].placa = g;
+                return;
+            }
+        }
+    }
+    
+    public void removerCarro(int i){
+        estacionamento[i].ocupada = false;           //desocupando a vaga
+        estacionamento[i].saidaHora = LocalDateTime.now(); // atribuindo a data local para a saida
+    }
+    
+    public void transformar(int i){      
+        DateFormat conversor = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        entrando = conversor.format(estacionamento[i].entradaHora);
+        saindo = conversor.format(estacionamento[i].saidaHora);
+        //System.out.println("String in HH:mm:ss format is: " + entrando);
+        //System.out.println("String in HH:mm:ss format is: " + saindo);
+    }
+    
+    public void statusVaga(int i){
+         System.out.println("Placa: " + estacionamento[i].placa + "\n");
+         System.out.println("Hora de entrada: " + estacionamento[i].entradaHora + "\n");//estacionamento[i].entradaHora + "\n");
+         System.out.println("Hora de saida: " + estacionamento[i].saidaHora + "\n");//estacionamento[i].saidaHora  + "\n");
+        // System.out.println("Valor: " + estacionamento[i].horas);
+    }
+    
+     public long calcularHoras(int i){
+        estacionamento[i].horas = ChronoUnit.HOURS.between(estacionamento[i].entradaHora, estacionamento[i].saidaHora);
+        return estacionamento[i].horas;
+    }
+    
+    public void vagaPagamento(){
+        
+    }
+    
+    @Override
+    public String toString() {
+        String r = "";       //string que mostra a vaga
+        for (int i = 0; i < estacionamento.length; i++) {
+            if (i < 12 && estacionamento[i].ocupada == false){
+                r += "Vaga E" + (i + 1) + ": Livre\n";
+            }
+            else if (i < 12 && estacionamento[i].ocupada == true){
+                r += "Vaga E" + (i + 1) + ": Ocupado\n";
+            }
+            else if (i >= 12 && estacionamento[i].ocupada == false){
+                r += "Vaga D" + (i + 1) + ": Livre\n";
+            }
+            else if (i >= 12 && estacionamento[i].ocupada == true){
+                r += "Vaga D" + (i + 1) + ": Ocupado\n";
+            }
+        }
+        return r;
+    }
+
+}

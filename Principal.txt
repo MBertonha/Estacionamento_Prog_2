@@ -1,0 +1,54 @@
+package estacionamento;
+
+import java.util.Scanner;
+
+public class Principal {
+    
+    
+
+    public static void main(String[] args) {
+        
+        Scanner teclado = new Scanner(System.in);
+        Estacionamento e = new Estacionamento();
+        int op;
+        int at = 0;
+        String pl = "";
+      
+        
+        for (int i = 0; i < 24; i++) {
+            Vaga vaga = new Vaga();
+            e.inserirVagas(vaga);   // insere 24 vagas (Objetos) no estacionamento
+        }
+        
+        do {
+            System.out.println( 
+                             "\n---------ESTACIONAMENTO--------" +
+                             "\n-------------------------------" +
+                             "\n--Digite-----------------------" +
+                             "\n--[1] Estacionar --------------" +
+                             "\n--[2] Remover carro -----------" +
+                             "\n--[3] Exibir ------------------" +
+                             "\n--[0] SAIR --------------------" +
+                             "\n-------------------------------");
+            op = teclado.nextInt();
+            switch(op) {
+                case 1:
+                    System.out.println("Insira a placa: ");
+                    pl = teclado.next();
+                    e.encontrarVaga(pl);
+                break;
+                case 2:
+                    System.out.println("Escolha a vaga: ");
+                    at = teclado.nextInt();
+                    e.removerCarro(at-1);
+                    //e.transformar(at-1);
+                    //e.calcularHoras(at-1);
+                    e.statusVaga(at-1);
+                break;
+                case 3:
+                    System.out.println(e);
+                break;
+            }
+        } while(op != 0);
+    }
+}
